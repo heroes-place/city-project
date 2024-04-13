@@ -14,9 +14,7 @@ Bientôt...
 
 ### Serveur
 
-Le serveur contient les fichiers du jeu (textures, sons, etc...), le système d'authentification et la partie responsable de tous les calculs du jeu.
-
-Le jeu étant au format web, les fichiers du jeu sont hébergés en ligne, et non en local.
+Le serveur contient le système d'authentification et la partie responsable de tous les calculs du jeu.
 
 ```
 cd ./server/
@@ -26,9 +24,7 @@ docker compose up -d
 
 ### Client
 
-Le client contient toute l'interface en jeu (inventaire, menus, connexion, etc...).
-
-Il est aussi responsable de générer la partie graphique du jeu à partir des fichiers fournis par le serveur.
+Le client contient les fichiers du jeu (textures, sons, etc...) et toute l'interface en jeu (inventaire, menus, connexion, etc...). Il est aussi responsable de rendre la partie graphique.
 
 ```
 cd ./client/
