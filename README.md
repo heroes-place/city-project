@@ -8,6 +8,32 @@ L'installation a été testée sur une machine physique, Debian 12 avec Nginx et
 
 ## Docker Compose
 
+```
+version: '3'
+
+services:
+  city-project-server:
+    image: ghcr.io/devsoleo/city-project-server:main
+    container_name: city-project-server
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+      - CLIENT_ADDRESS=domain.fr
+      - PGHOST=192.168.1.*
+      - PGUSER=postgres
+      - PGPASSWORD=password
+      - REDIS_HOST=192.168.1.*
+    volumes:
+      - ./config/:/usr/src/app/config/
+
+  city-project-client:
+    image: ghcr.io/devsoleo/city-project-client:main
+    container_name: city-project-client
+    ports:
+      - 3001:80
+```
+
 ### Base de données
 
 Bientôt...
