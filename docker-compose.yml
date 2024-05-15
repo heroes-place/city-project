@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  city-project-server:
+    image: ghcr.io/heroes-place/city-project-server:main
+    container_name: city-project-server
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+      - CLIENT_ADDRESS=
+      - PGHOST=
+      - PGUSER=
+      - PGPASSWORD=
+      - REDIS_HOST=
+    volumes:
+      - ./private/:/usr/src/app/private/
+
+  city-project-client:
+    image: ghcr.io/heroes-place/city-project-client:main
+    container_name: city-project-client
+    ports:
+      - 3001:80
