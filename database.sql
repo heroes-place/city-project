@@ -23,27 +23,46 @@ CREATE TABLE invites (
     receiver_id INTEGER NOT NULL,
     status INTEGER DEFAULT 0,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_sender FOREIGN KEY (sender_id) REFERENCES characters (id) ON DELETE CASCADE,
-    CONSTRAINT fk_receiver FOREIGN KEY (receiver_id) REFERENCES characters (id) ON DELETE CASCADE
+    FOREIGN KEY (sender_id) REFERENCES characters (id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES characters (id) ON DELETE CASCADE
 );
 
-CREATE TABLE messages (
+CREATE TABLE channels_categories (
+	id SERIAL PRIMARY KEY NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	is_persistent BOOLEAN DEFAULT FALSE,
+	min_members INTEGER DEFAULT 1,
+	max_members INTEGER,
+	creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE channels (
     id SERIAL PRIMARY KEY NOT NULL,
-    author INTEGER NOT NULL,
-    content varchar(255) NOT NULL,
+    category INTEGER NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_author FOREIGN KEY (author) REFERENCES characters (id)
+    FOREIGN KEY (category) REFERENCES channels_categories (id)
+);
+
+CREATE TABLE channels_members (
+    id SERIAL PRIMARY KEY NOT NULL,
+    channel_id INTEGER NOT NULL,
+    character_id INTEGER NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (channel_id) REFERENCES channels (id) ON DELETE CASCADE,
+    FOREIGN KEY (character_id) REFERENCES characters (id) ON DELETE CASCADE
 );
 
 CREATE TABLE villages (
     id SERIAL PRIMARY KEY NOT NULL,
     name varchar(20) NOT NULL UNIQUE,
     founder_id INTEGER NOT NULL,
+    channel_id INTEGER NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_founder FOREIGN KEY (founder_id) REFERENCES characters (id)
+    FOREIGN KEY (founder_id) REFERENCES characters (id),
+    FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
 
-CREATE TABLE village_members (
+CREATE TABLE villages_members (
     id SERIAL PRIMARY KEY NOT NULL,
     village_id INTEGER NOT NULL,
     character_id INTEGER NOT NULL,
@@ -51,4 +70,12 @@ CREATE TABLE village_members (
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (village_id) REFERENCES villages (id) ON DELETE CASCADE,
     FOREIGN KEY (character_id) REFERENCES characters (id) ON DELETE CASCADE
+);
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY NOT NULL,
+    author INTEGER NOT NULL,
+    content varchar(255) NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (author) REFERENCES characters (id)
 );
