@@ -74,8 +74,10 @@ CREATE TABLE villages_members (
 
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY NOT NULL,
+    channel_id INTEGER NOT NULL,
     author INTEGER NOT NULL,
     content varchar(255) NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (channel_id) REFERENCES channels (id),
     FOREIGN KEY (author) REFERENCES characters (id)
 );
