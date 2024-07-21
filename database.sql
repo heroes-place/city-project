@@ -81,3 +81,15 @@ CREATE TABLE messages (
     FOREIGN KEY (channel_id) REFERENCES channels (id),
     FOREIGN KEY (author) REFERENCES characters (id)
 );
+
+CREATE TABLE channels_whisper  (
+    id SERIAL PRIMARY KEY NOT NULL,
+    channel_id INTEGER NOT NULL,
+    character_1 INTEGER NOT NULL,
+    character_2 INTEGER NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (channel_id) REFERENCES channels (id) ON DELETE CASCADE,
+    FOREIGN KEY (character_1) REFERENCES characters (id) ON DELETE CASCADE,
+    FOREIGN KEY (character_2) REFERENCES characters (id) ON DELETE CASCADE
+);
+
